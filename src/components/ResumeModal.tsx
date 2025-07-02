@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { X, Download, ZoomIn, ZoomOut, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -13,6 +13,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
   const [scale, setScale] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -21,7 +22,17 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
       setError(false);
       setScale(1);
       setCurrentPage(1);
+      
+      // Prevent body scrolling when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Re-enable body scrolling when modal is closed
+      document.body.style.overflow = 'unset';
     }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [isOpen]);
 
   const handleZoomIn = () => {
@@ -60,6 +71,11 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
     setError(true);
   };
 
+  // Prevent modal content from scrolling with the page
+  const handleModalClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -71,12 +87,13 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
       onClick={onClose}
     >
       <motion.div 
+        ref={modalRef}
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         className="relative bg-card border border-custom rounded-xl max-w-4xl w-full max-h-[90vh] flex flex-col"
-        onClick={(e) => e.stopPropagation()}
+        onClick={handleModalClick}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-custom">

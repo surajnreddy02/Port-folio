@@ -13,27 +13,27 @@ const About = () => {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
   const currentlyExploring = [
-    'Exploring advanced Web3 development',
-    'Learning system design patterns',
-    'Exploring AI and machine learning',
-    'Building scalable applications',
-    'Writing technical articles'
+    'Developing a machine learning-based vehicle analytics system',
+    'Advancing my knowledge in AI and ML',
+    'Understanding system design patterns',
+    'Building real-time, interactive web applications',
+    'Participating in hackathons and technical events'
   ];
 
   const keyHighlights = [
-    '9.54 CGPA in Information Science',
-    'Multiple full-stack projects deployed',
-    'Experience with blockchain development',
-    'Proficient in modern tech stacks',
-    'Technical writer at Mind Dump'
+    'Winner at MEDNXT Hackathon 2025 for SwasthyaAI',
+    'Developer of a real-time vehicle tracking system',
+    'Creator of several full-stack projects',
+    'Experience with AI technologies',
+    'Technical writer and content contributor'
   ];
 
   const beyondCoding = [
-    { icon: PenTool, label: 'Building side projects' },
+    { icon: PenTool, label: 'Product design' },
     { icon: BookOpen, label: 'Reading tech blogs' },
     { icon: Gamepad2, label: 'Gaming' },
     { icon: Coffee, label: 'Coffee enthusiast' },
-    { icon: Target, label: 'Writing tech blogs' }
+    { icon: Target, label: 'Photography' }
   ];
 
   return (
@@ -69,25 +69,22 @@ const About = () => {
               </div>
               <div className="text-secondary leading-relaxed mb-6">
                 <p className="mb-4">
-                  I'm Suraj N Reddy, a passionate and focused developer currently in my 3rd year at BMS College of Engineering, 
-                  pursuing Information Science. My CGPA till the 5th semester stands at 9.54. I'm driven by a deep interest in 
-                  development and Web3, and I'm actively looking for opportunities to intern, contribute, and grow in real-world 
-                  tech environments.
+                  I am Suraj N Reddy, a passionate developer currently pursuing Information Science and Engineering at BMS College of Engineering. I am deeply committed to solving real-world problems through technology and enjoy working on projects that blend creativity with technical depth.
                 </p>
                 <p>
-                  From crafting end-to-end MERN stacks to deploying blockchain-based DApps, I enjoy solving problems and building 
-                  systems that matter. I believe in learning by doing and love to experiment with new technologies that push the 
-                  boundaries of what's possible on the web.
+                  I have worked on AI-driven systems like SwasthyaAI, a healthcare platform designed for rural environments, and a machine learning-based vehicle recognition and analytics solution. I enjoy exploring new technologies, contributing to open-source initiatives, and collaborating with communities that push the boundaries of what's possible in tech.
                 </p>
               </div>
               
               <motion.a
                 whileHover={{ scale: 1.05 }}
-                href="#"
+                href="https://github.com/surajnreddy02"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center space-x-2 px-4 py-2 bg-secondary border border-light rounded-lg hover:border-accent transition-colors"
               >
-                <BookOpen size={16} className="text-muted" />
-                <span className="text-secondary">Read my tech blog</span>
+                <Code size={16} className="text-muted" />
+                <span className="text-secondary">GitHub Profile</span>
               </motion.a>
             </motion.div>
 
@@ -182,9 +179,7 @@ const About = () => {
               
               <div className="mt-6 pt-6 border-t border-custom">
                 <p className="text-secondary text-sm leading-relaxed">
-                  When I'm not coding, you'll find me exploring the latest tech trends, contributing to open source, 
-                  or unwinding with a good game. I believe in maintaining a healthy work-life balance while staying 
-                  curious about emerging technologies.
+                  I believe that meaningful technology comes from a balanced mix of technical skill, real-world empathy, and continuous curiosity. My approach is rooted in learning by doing, building with purpose, and growing through community engagement.
                 </p>
               </div>
             </motion.div>

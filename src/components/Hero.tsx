@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Instagram, Twitter, ArrowDown } from 'lucide-react';
+import ResumeModal from './ResumeModal';
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
   const texts = ['Student', 'Programmer', 'Developer'];
 
@@ -144,6 +146,15 @@ const Hero = () => {
               >
                 Let's Talk
               </motion.button>
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsResumeModalOpen(true)}
+                className="px-8 py-3 btn-secondary rounded-lg font-semibold"
+              >
+                View Resume
+              </motion.button>
             </motion.div>
 
             {/* Social Links */}
@@ -191,6 +202,12 @@ const Hero = () => {
           </motion.div>
         </div>
       </div>
+      
+      {/* Resume Modal */}
+      <ResumeModal 
+        isOpen={isResumeModalOpen} 
+        onClose={() => setIsResumeModalOpen(false)} 
+      />
     </section>
   );
 };

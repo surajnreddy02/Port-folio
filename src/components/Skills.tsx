@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Search, Code, Globe, Database, Cpu, Wrench, Zap, Terminal, Layers } from 'lucide-react';
+import { Search, Code, Globe, Database, Wrench, Zap, Terminal, Layers } from 'lucide-react';
 
 const Skills = () => {
   const [ref, inView] = useInView({
@@ -28,24 +28,19 @@ const Skills = () => {
       skills: ['MongoDB', 'PostgreSQL', 'Prisma', 'NeonDB', 'Redis', 'Firebase']
     },
     {
-      title: 'Blockchain',
-      icon: Cpu,
-      skills: ['Thirdweb', 'Solidity', 'Web3.js', 'IPFS']
-    },
-    {
       title: 'Languages',
       icon: Code,
-      skills: ['JavaScript', 'TypeScript', 'Python', 'Solidity']
+      skills: ['JavaScript', 'TypeScript', 'Python', 'Java', 'Kotlin']
     },
     {
-      title: 'Big Data',
-      icon: Layers,
-      skills: ['Kafka', 'Hadoop', 'Spark']
+      title: 'AI & ML',
+      icon: Zap,
+      skills: ['TensorFlow', 'OpenAI API', 'Google Gemini', 'Computer Vision', 'NLP']
     },
     {
       title: 'Tools',
       icon: Wrench,
-      skills: ['Git', 'Docker', 'Vite', 'Webpack', 'TensorFlow']
+      skills: ['Git', 'Docker', 'Vite', 'Webpack', 'Supabase']
     }
   ];
 

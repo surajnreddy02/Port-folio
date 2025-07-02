@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import ResumeModal from './ResumeModal';
 
 interface NavbarProps {
   currentSection: number;
@@ -10,7 +9,6 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ currentSection }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,14 +70,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentSection }) => {
                 {item.name}
               </motion.button>
             ))}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsResumeModalOpen(true)}
-              className="px-4 py-2 btn-secondary rounded-lg font-medium"
-            >
-              Preview Resume
-            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -115,28 +105,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentSection }) => {
                   {item.name}
                 </motion.button>
               ))}
-              <motion.button
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navItems.length * 0.1 }}
-                onClick={() => {
-                  setIsResumeModalOpen(true);
-                  setIsOpen(false);
-                }}
-                className="block w-full text-left font-medium py-2 text-accent"
-              >
-                Preview Resume
-              </motion.button>
             </div>
           </motion.div>
         )}
       </div>
-
-      {/* Resume Modal */}
-      <ResumeModal 
-        isOpen={isResumeModalOpen} 
-        onClose={() => setIsResumeModalOpen(false)} 
-      />
     </motion.nav>
   );
 };
