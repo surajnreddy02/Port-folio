@@ -181,33 +181,10 @@ const About = () => {
                 })}
               </div>
               
-              <div className="mt-6 pt-6 border-t border-custom space-y-3">
+              <div className="mt-6 pt-6 border-t border-custom">
                 <p className="text-secondary text-sm leading-relaxed">
-                  🎞️ I love watching movies—cinema helps me unwind, reflect, and often inspires creative thinking
+                  I believe that meaningful technology comes from a balanced mix of technical skill, real-world empathy, and continuous curiosity. My approach is rooted in learning by doing, building with purpose, and growing through community engagement.
                 </p>
-                <p className="text-secondary text-sm leading-relaxed">
-                  🌄 I enjoy traveling, especially to nature-rich places like hills, beaches, and scenic destinations
-                </p>
-                <p className="text-secondary text-sm leading-relaxed">
-                  📷 Photography is a hobby I pursue to capture fleeting moments and landscapes I explore
-                </p>
-                <p className="text-secondary text-sm leading-relaxed">
-                  🤝 I value networking, learning through real conversations and exchanging ideas with peers
-                </p>
-                <p className="text-secondary text-sm leading-relaxed">
-                  🎮 Gaming is a space where I relax and sometimes explore game UI/UX
-                </p>
-                <p className="text-secondary text-sm leading-relaxed">
-                  🧠 Product design intrigues me, especially tools and apps that blend usability with creativity
-                </p>
-                <p className="text-secondary text-sm leading-relaxed">
-                  🍛 I'm a foodie, and nothing excites me more than discovering delicious food, especially a good plate of biryani
-                </p>
-                <div className="mt-6 pt-4 border-t border-custom">
-                  <p className="text-secondary text-sm leading-relaxed">
-                    I believe that meaningful technology comes from a balanced mix of technical skill, real-world empathy, and continuous curiosity. My approach is rooted in learning by doing, building with purpose, and growing through community engagement.
-                  </p>
-                </div>
               </div>
             </motion.div>
 
