@@ -158,7 +158,7 @@ const About = () => {
             >
               <div className="flex items-start space-x-3 mb-6">
                 <Coffee className="w-5 h-5 text-accent mt-1" />
-                <h3 className="text-xl font-semibold text-primary">🎬 Beyond Code</h3>
+                <h3 className="text-xl font-semibold text-primary"> Beyond Code</h3>
               </div>
               <div className="text-sm text-muted mb-6">What I enjoy doing when I'm not programming or studying</div>
               
