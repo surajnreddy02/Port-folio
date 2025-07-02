@@ -333,12 +333,6 @@ h1, h2, h3, h4, h5, h6 {
   height: 90vh;
 }
 
-.resume-modal iframe {
-  border: none;
-  background: white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
 /* PDF Viewer Optimizations */
 .pdf-container {
   display: flex;
@@ -534,7 +528,7 @@ textarea:focus-visible {
   }
 }
 
-/* Loading screen */
+/* Enhanced Loading screen */
 .loading-screen {
   position: fixed;
   top: 0;
@@ -554,13 +548,9 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--border-light);
-  border-top: 3px solid var(--accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+/* Custom border width utilities */
+.border-3 {
+  border-width: 3px;
 }
 
 /* High DPI display optimizations */
