@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Code, Zap, Trophy, Coffee, BookOpen, Gamepad2, PenTool, Target } from 'lucide-react';
+import { Code, Zap, Trophy, Coffee, Film, Mountain, Camera, Users, Gamepad2, PenTool, UtensilsCrossed } from 'lucide-react';
 import ResumeModal from './ResumeModal';
 
 const About = () => {
@@ -13,27 +13,31 @@ const About = () => {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
   const currentlyExploring = [
-    'Developing a machine learning-based vehicle analytics system',
-    'Advancing my knowledge in AI and ML',
-    'Understanding system design patterns',
-    'Building real-time, interactive web applications',
-    'Participating in hackathons and technical events'
+    'Developing a machine learning-based vehicle analytics system that detects and tracks vehicle count, speed, and number plates using computer vision',
+    'Advancing my knowledge in artificial intelligence and machine learning, especially in image processing and NLP applications',
+    'Understanding system design patterns for building scalable, maintainable applications',
+    'Building real-time, interactive web applications such as a multiplayer housie game and an advanced scientific calculator',
+    'Participating in hackathons and technical events to test ideas and learn from others',
+    'Writing technical articles to document and share insights from my projects and learning journey'
   ];
 
   const keyHighlights = [
-    'Winner at MEDNXT Hackathon 2025 for SwasthyaAI',
-    'Developer of a real-time vehicle tracking system',
-    'Creator of several full-stack projects',
-    'Experience with AI technologies',
-    'Technical writer and content contributor'
+    'Winner at MEDNXT Hackathon 2025 for SwasthyaAI, an AI-powered health assistant designed for rural healthcare delivery',
+    'Developer of a real-time vehicle tracking and number plate recognition system using machine learning and OpenCV',
+    'Creator of several full-stack projects deployed on the web, including productivity tools and AI-driven applications',
+    'Experience working with AI technologies, blockchain, and progressive web app frameworks',
+    'Technical writer and content contributor, regularly sharing knowledge and learnings through blogs and online platforms',
+    'Active contributor to developer communities and technical discussions'
   ];
 
   const beyondCoding = [
-    { icon: PenTool, label: 'Product design' },
-    { icon: BookOpen, label: 'Reading tech blogs' },
+    { icon: Film, label: 'Watching movies' },
+    { icon: Mountain, label: 'Traveling' },
+    { icon: Camera, label: 'Photography' },
+    { icon: Users, label: 'Networking' },
     { icon: Gamepad2, label: 'Gaming' },
-    { icon: Coffee, label: 'Coffee enthusiast' },
-    { icon: Target, label: 'Photography' }
+    { icon: PenTool, label: 'Product design' },
+    { icon: UtensilsCrossed, label: 'Foodie' }
   ];
 
   return (
@@ -101,7 +105,7 @@ const About = () => {
                   <Zap className="w-5 h-5 text-accent mt-1" />
                   <h3 className="text-lg font-semibold text-primary">Currently Exploring</h3>
                 </div>
-                <div className="text-sm text-muted mb-4">What I'm learning and working on right now</div>
+                <div className="text-sm text-muted mb-4">These are the areas I am actively learning and working on:</div>
                 <ul className="bullet-list">
                   {currentlyExploring.map((item, index) => (
                     <motion.li
@@ -128,7 +132,7 @@ const About = () => {
                   <Trophy className="w-5 h-5 text-accent mt-1" />
                   <h3 className="text-lg font-semibold text-primary">Key Highlights</h3>
                 </div>
-                <div className="text-sm text-muted mb-4">Some of my notable achievements</div>
+                <div className="text-sm text-muted mb-4">Some of the key accomplishments and experiences that define my journey so far include:</div>
                 <ul className="bullet-list">
                   {keyHighlights.map((item, index) => (
                     <motion.li
@@ -154,11 +158,11 @@ const About = () => {
             >
               <div className="flex items-start space-x-3 mb-6">
                 <Coffee className="w-5 h-5 text-accent mt-1" />
-                <h3 className="text-xl font-semibold text-primary">Beyond Code</h3>
+                <h3 className="text-xl font-semibold text-primary">🎬 Beyond Code</h3>
               </div>
-              <div className="text-sm text-muted mb-6">What I enjoy doing when I'm not programming</div>
+              <div className="text-sm text-muted mb-6">What I enjoy doing when I'm not programming or studying</div>
               
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-7 gap-4">
                 {beyondCoding.map((item, index) => {
                   const Icon = item.icon;
                   return (
@@ -177,10 +181,33 @@ const About = () => {
                 })}
               </div>
               
-              <div className="mt-6 pt-6 border-t border-custom">
+              <div className="mt-6 pt-6 border-t border-custom space-y-3">
                 <p className="text-secondary text-sm leading-relaxed">
-                  I believe that meaningful technology comes from a balanced mix of technical skill, real-world empathy, and continuous curiosity. My approach is rooted in learning by doing, building with purpose, and growing through community engagement.
+                  🎞️ I love watching movies—cinema helps me unwind, reflect, and often inspires creative thinking
                 </p>
+                <p className="text-secondary text-sm leading-relaxed">
+                  🌄 I enjoy traveling, especially to nature-rich places like hills, beaches, and scenic destinations
+                </p>
+                <p className="text-secondary text-sm leading-relaxed">
+                  📷 Photography is a hobby I pursue to capture fleeting moments and landscapes I explore
+                </p>
+                <p className="text-secondary text-sm leading-relaxed">
+                  🤝 I value networking, learning through real conversations and exchanging ideas with peers
+                </p>
+                <p className="text-secondary text-sm leading-relaxed">
+                  🎮 Gaming is a space where I relax and sometimes explore game UI/UX
+                </p>
+                <p className="text-secondary text-sm leading-relaxed">
+                  🧠 Product design intrigues me, especially tools and apps that blend usability with creativity
+                </p>
+                <p className="text-secondary text-sm leading-relaxed">
+                  🍛 I'm a foodie, and nothing excites me more than discovering delicious food, especially a good plate of biryani
+                </p>
+                <div className="mt-6 pt-4 border-t border-custom">
+                  <p className="text-secondary text-sm leading-relaxed">
+                    I believe that meaningful technology comes from a balanced mix of technical skill, real-world empathy, and continuous curiosity. My approach is rooted in learning by doing, building with purpose, and growing through community engagement.
+                  </p>
+                </div>
               </div>
             </motion.div>
 

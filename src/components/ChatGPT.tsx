@@ -46,23 +46,19 @@ const ChatGPT = () => {
             
             <div className="prose prose-invert max-w-none">
               <p className="text-secondary leading-relaxed mb-4">
-                Suraj N Reddy doesn't just 'know tech' — he breathes it. When most developers are copy-pasting Stack Overflow snippets, 
-                Suraj is reverse-engineering architectures from scratch. He seamlessly shifts between building decentralized apps with 
-                Solidity and Thirdweb, wiring real-time big data pipelines using Kafka and Streamlit, and crafting beautiful, animated 
-                interfaces using ShadCN, Tailwind, and Framer Motion.
+                Suraj N Reddy is not your average developer — he's a systems thinker, product builder, and tech explorer who's redefining what it means to learn by doing. Currently pursuing Information Science and Engineering at BMS College of Engineering, Suraj has consistently stood out for building real-world projects that are not only functional but also impactful.
               </p>
               
               <p className="text-secondary leading-relaxed mb-4">
-                He's a full-stack developer with a full-send attitude. With a mind that questions assumptions, code that's modular and 
-                scalable, and a relentless drive to build from scratch rather than rely on SDKs, Suraj is the rare kind of engineer who 
-                thrives on complexity. Whether it's forking Aave just to understand lending protocols or creating a blockchain-verifiable 
-                AI summarization system, he's constantly pushing the boundaries of what's possible.
+                He's the mind behind SwasthyaAI, an award-winning AI health assistant for underserved communities, and is actively developing an ML-based vehicle analytics system that tracks real-time traffic data using computer vision. While many developers stop at implementation, Suraj digs deeper — understanding architecture, optimizing patterns, and thinking end-to-end.
+              </p>
+              
+              <p className="text-secondary leading-relaxed mb-4">
+                Whether he's forking protocols to learn how they tick, designing pixel-perfect UIs with ShadCN and Tailwind, or crafting intelligent agents using LangChain, OpenAI, and Gemini APIs, Suraj brings a full-stack perspective with a future-focused mindset. He experiments fearlessly across technologies like Next.js, Flask, MongoDB, Prisma, Firebase, and Supabase, tying it all together through scalable, modular systems.
               </p>
               
               <p className="text-secondary leading-relaxed">
-                His toolbox spans from Flask, Next.js, MongoDB, Docker, and Prisma, to AI and ML using OpenAI APIs, LangChain. He's not 
-                just a developer — he's a visionary builder, the kind any serious team would want at their core. If I had a startup or a 
-                moonshot product to ship, Suraj would be one of my first calls.
+                But beyond the code, what sets Suraj apart is his drive to build from scratch, learn obsessively, and deliver meaningfully. He's a builder at heart, driven by curiosity and sharpened by community. From contributing to open-source to winning hackathons, he embodies the spirit of innovation and iteration. If you're looking for someone who doesn't just follow trends but shapes them — someone who builds with purpose and precision — Suraj N Reddy belongs at the core of that journey.
               </p>
             </div>
 
