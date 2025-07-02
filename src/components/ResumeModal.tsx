@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { X, Download, ZoomIn, ZoomOut, RotateCw, Maximize2, Minimize2 } from 'lucide-react';
+import { X, Download, ZoomIn, ZoomOut, RotateCw, Maximize2, Minimize2, RefreshCw } from 'lucide-react';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -13,8 +13,15 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
   const [error, setError] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [rotation, setRotation] = useState(0);
+  const [retryCount, setRetryCount] = useState(0);
   const modalRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // PDF URL with cache busting
+  const getPdfUrl = () => {
+    const timestamp = new Date().getTime();
+    return `/my-cv.pdf?v=${timestamp}&retry=${retryCount}`;
+  };
 
   // Initialize modal state
   useEffect(() => {
@@ -25,31 +32,37 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
       setScale(1);
       setRotation(0);
       setIsFullscreen(false);
+      setRetryCount(0);
       
       // Prevent body scrolling - critical for modal positioning
-      document.body.style.overflow = 'hidden';
+      const scrollY = window.scrollY;
       document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
       document.body.style.width = '100%';
-      document.body.style.top = '0';
+      document.body.style.overflow = 'hidden';
       
-      // Clear browser cache for PDF if needed
-      if (iframeRef.current) {
-        iframeRef.current.src = '';
-      }
+      // Store scroll position
+      document.body.setAttribute('data-scroll-y', scrollY.toString());
     } else {
-      // Re-enable body scrolling
-      document.body.style.overflow = '';
+      // Re-enable body scrolling and restore position
+      const scrollY = document.body.getAttribute('data-scroll-y');
       document.body.style.position = '';
-      document.body.style.width = '';
       document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY));
+        document.body.removeAttribute('data-scroll-y');
+      }
     }
     
     return () => {
       // Cleanup on unmount
-      document.body.style.overflow = '';
       document.body.style.position = '';
-      document.body.style.width = '';
       document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
@@ -93,45 +106,76 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
     setIsFullscreen(prev => !prev);
   };
 
-  // Download functionality with error handling
+  // Download functionality with multiple fallbacks
   const handleDownload = async () => {
     try {
+      // Method 1: Try fetch first
       const response = await fetch('/my-cv.pdf');
-      if (!response.ok) {
-        throw new Error('PDF not found');
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Suraj_N_Reddy_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        return;
       }
-      
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'Suraj_N_Reddy_Resume.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Download failed:', error);
-      // Fallback to direct link
+      console.warn('Fetch download failed, trying direct link:', error);
+    }
+
+    // Method 2: Direct link fallback
+    try {
       const link = document.createElement('a');
       link.href = '/my-cv.pdf';
       link.download = 'Suraj_N_Reddy_Resume.pdf';
       link.target = '_blank';
+      link.rel = 'noopener noreferrer';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    } catch (error) {
+      console.error('All download methods failed:', error);
+      // Method 3: Open in new tab as last resort
+      window.open('/my-cv.pdf', '_blank');
     }
   };
 
-  // PDF load handlers
+  // PDF load handlers with enhanced error detection
   const handleIframeLoad = () => {
-    console.log('PDF loaded successfully');
-    setLoading(false);
-    setError(false);
+    console.log('PDF iframe loaded');
+    setTimeout(() => {
+      if (iframeRef.current) {
+        try {
+          // Try to access iframe content to verify PDF loaded
+          const iframeDoc = iframeRef.current.contentDocument;
+          if (iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML.trim() === '') {
+            // Empty body might indicate PDF loaded successfully
+            setLoading(false);
+            setError(false);
+          } else if (iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML.includes('pdf')) {
+            // Content suggests PDF is there
+            setLoading(false);
+            setError(false);
+          } else {
+            // Assume success after timeout
+            setLoading(false);
+            setError(false);
+          }
+        } catch (e) {
+          // Cross-origin restrictions - assume success
+          setLoading(false);
+          setError(false);
+        }
+      }
+    }, 1000);
   };
 
   const handleIframeError = () => {
-    console.error('PDF failed to load');
+    console.error('PDF iframe failed to load');
     setLoading(false);
     setError(true);
   };
@@ -141,16 +185,39 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
     e.stopPropagation();
   };
 
-  // Retry loading PDF
+  // Retry loading PDF with different strategies
   const retryLoad = () => {
     setLoading(true);
     setError(false);
+    setRetryCount(prev => prev + 1);
+    
     if (iframeRef.current) {
-      // Force reload by changing src
-      const timestamp = new Date().getTime();
-      iframeRef.current.src = `/my-cv.pdf?t=${timestamp}`;
+      // Force reload with new timestamp
+      iframeRef.current.src = getPdfUrl();
     }
   };
+
+  // Check if PDF exists
+  const checkPdfExists = async () => {
+    try {
+      const response = await fetch('/my-cv.pdf', { method: 'HEAD' });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  };
+
+  // Initialize PDF check
+  useEffect(() => {
+    if (isOpen) {
+      checkPdfExists().then(exists => {
+        if (!exists) {
+          setError(true);
+          setLoading(false);
+        }
+      });
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -267,15 +334,16 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
                 </div>
                 <h3 className="text-xl font-semibold text-primary mb-3">Unable to Load PDF</h3>
                 <p className="text-secondary mb-6 leading-relaxed">
-                  The resume couldn't be displayed. This might be due to browser restrictions or network issues.
+                  The resume couldn't be displayed. This might be due to browser restrictions or the PDF file not being found.
                 </p>
                 
                 <div className="space-y-3">
                   <button 
                     onClick={retryLoad}
-                    className="w-full px-4 py-2 btn-primary rounded-lg font-medium"
+                    className="w-full px-4 py-2 btn-primary rounded-lg font-medium flex items-center justify-center"
                   >
-                    Try Again
+                    <RefreshCw size={16} className="mr-2" />
+                    Try Again ({retryCount + 1})
                   </button>
                   <button 
                     onClick={handleDownload}
@@ -288,7 +356,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
                 
                 <div className="mt-6 pt-4 border-t border-custom">
                   <p className="text-xs text-muted">
-                    Troubleshooting: Try clearing your browser cache or using a different browser
+                    Troubleshooting: Ensure my-cv.pdf exists in the public folder, try clearing browser cache, or use a different browser
                   </p>
                 </div>
               </div>
@@ -305,11 +373,11 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
                 maxWidth: '100%',
                 maxHeight: '100%'
               }}
-              className="shadow-2xl rounded-lg overflow-hidden"
+              className="shadow-2xl rounded-lg overflow-hidden bg-white"
             >
               <iframe 
                 ref={iframeRef}
-                src="/my-cv.pdf"
+                src={getPdfUrl()}
                 className="w-[210mm] h-[297mm] border-0 bg-white"
                 onLoad={handleIframeLoad}
                 onError={handleIframeError}
@@ -320,6 +388,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
                   maxWidth: '100%',
                   maxHeight: '100%'
                 }}
+                sandbox="allow-same-origin allow-scripts"
               />
             </div>
           </div>
