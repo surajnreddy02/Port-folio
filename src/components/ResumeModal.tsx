@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { X, Download, ZoomIn, ZoomOut, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Download, ZoomIn, ZoomOut, RotateCw, Maximize2, Minimize2 } from 'lucide-react';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -8,72 +8,148 @@ interface ResumeModalProps {
 }
 
 const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [scale, setScale] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [rotation, setRotation] = useState(0);
   const modalRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
+  // Initialize modal state
   useEffect(() => {
     if (isOpen) {
-      // Reset state when modal opens
+      // Reset all states when modal opens
       setLoading(true);
       setError(false);
       setScale(1);
-      setCurrentPage(1);
+      setRotation(0);
+      setIsFullscreen(false);
       
-      // Prevent body scrolling when modal is open
+      // Prevent body scrolling - critical for modal positioning
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = '0';
+      
+      // Clear browser cache for PDF if needed
+      if (iframeRef.current) {
+        iframeRef.current.src = '';
+      }
     } else {
-      // Re-enable body scrolling when modal is closed
-      document.body.style.overflow = 'unset';
+      // Re-enable body scrolling
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
     }
     
     return () => {
-      document.body.style.overflow = 'unset';
+      // Cleanup on unmount
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
     };
   }, [isOpen]);
 
+  // Handle escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
+
+  // Zoom controls with bounds
   const handleZoomIn = () => {
-    if (scale < 2) setScale(scale + 0.1);
+    setScale(prev => Math.min(prev + 0.1, 2.0));
   };
 
   const handleZoomOut = () => {
-    if (scale > 0.5) setScale(scale - 0.1);
+    setScale(prev => Math.max(prev - 0.1, 0.5));
   };
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  const handleZoomReset = () => {
+    setScale(1);
   };
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  // Rotation control
+  const handleRotate = () => {
+    setRotation(prev => (prev + 90) % 360);
   };
 
-  const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/my-cv.pdf';
-    link.download = 'Suraj_N_Reddy_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // Fullscreen toggle
+  const toggleFullscreen = () => {
+    setIsFullscreen(prev => !prev);
   };
 
+  // Download functionality with error handling
+  const handleDownload = async () => {
+    try {
+      const response = await fetch('/my-cv.pdf');
+      if (!response.ok) {
+        throw new Error('PDF not found');
+      }
+      
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Suraj_N_Reddy_Resume.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download failed:', error);
+      // Fallback to direct link
+      const link = document.createElement('a');
+      link.href = '/my-cv.pdf';
+      link.download = 'Suraj_N_Reddy_Resume.pdf';
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  // PDF load handlers
   const handleIframeLoad = () => {
+    console.log('PDF loaded successfully');
     setLoading(false);
-    // In a real implementation, you would get the total pages from the PDF
-    setTotalPages(1);
+    setError(false);
   };
 
   const handleIframeError = () => {
+    console.error('PDF failed to load');
     setLoading(false);
     setError(true);
   };
 
-  // Prevent modal content from scrolling with the page
+  // Prevent modal from closing when clicking inside
   const handleModalClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+  };
+
+  // Retry loading PDF
+  const retryLoad = () => {
+    setLoading(true);
+    setError(false);
+    if (iframeRef.current) {
+      // Force reload by changing src
+      const timestamp = new Date().getTime();
+      iframeRef.current.src = `/my-cv.pdf?t=${timestamp}`;
+    }
   };
 
   if (!isOpen) return null;
@@ -83,8 +159,11 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm ${
+        isFullscreen ? 'p-0' : 'p-4'
+      }`}
       onClick={onClose}
+      style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
     >
       <motion.div 
         ref={modalRef}
@@ -92,140 +171,169 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="relative bg-card border border-custom rounded-xl max-w-4xl w-full max-h-[90vh] flex flex-col"
+        className={`relative bg-card border border-custom flex flex-col ${
+          isFullscreen 
+            ? 'w-full h-full rounded-none' 
+            : 'rounded-xl w-full max-w-5xl h-[90vh]'
+        }`}
         onClick={handleModalClick}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-custom">
+        <div className="flex items-center justify-between p-4 border-b border-custom bg-card/95 backdrop-blur-sm">
           <div>
-            <h2 className="text-2xl font-bold text-primary mb-2">Resume Preview</h2>
-            <p className="text-secondary text-sm">View and download my resume</p>
+            <h2 className="text-xl font-bold text-primary">Resume Preview</h2>
+            <p className="text-secondary text-sm">Suraj N Reddy - Software Developer</p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
+          
+          {/* Controls */}
+          <div className="flex items-center space-x-2">
+            {/* Zoom Controls */}
+            <div className="flex items-center space-x-1 bg-secondary rounded-lg p-1">
               <button 
                 onClick={handleZoomOut}
-                className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-secondary"
-                aria-label="Zoom out"
+                disabled={scale <= 0.5}
+                className="p-1.5 text-muted hover:text-primary transition-colors rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Zoom Out"
               >
-                <ZoomOut size={18} />
+                <ZoomOut size={16} />
               </button>
-              <span className="text-secondary text-sm">{Math.round(scale * 100)}%</span>
+              <button 
+                onClick={handleZoomReset}
+                className="px-2 py-1.5 text-xs text-secondary hover:text-primary transition-colors"
+                title="Reset Zoom"
+              >
+                {Math.round(scale * 100)}%
+              </button>
               <button 
                 onClick={handleZoomIn}
-                className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-secondary"
-                aria-label="Zoom in"
+                disabled={scale >= 2.0}
+                className="p-1.5 text-muted hover:text-primary transition-colors rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Zoom In"
               >
-                <ZoomIn size={18} />
+                <ZoomIn size={16} />
               </button>
             </div>
+
+            {/* Additional Controls */}
+            <button 
+              onClick={handleRotate}
+              className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-secondary"
+              title="Rotate"
+            >
+              <RotateCw size={16} />
+            </button>
+            
+            <button 
+              onClick={toggleFullscreen}
+              className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-secondary"
+              title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            >
+              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+            </button>
+            
             <button 
               onClick={handleDownload}
               className="p-2 text-accent hover:text-accent-hover transition-colors rounded-lg hover:bg-secondary"
               title="Download Resume"
-              aria-label="Download resume"
             >
-              <Download size={18} />
+              <Download size={16} />
             </button>
+            
             <button 
               onClick={onClose}
               className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-secondary"
-              aria-label="Close modal"
+              title="Close"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
           </div>
         </div>
         
-        {/* PDF Viewer */}
-        <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-secondary/50">
+        {/* PDF Viewer Container */}
+        <div className="flex-1 overflow-hidden bg-secondary/30 relative">
           {loading && (
-            <div className="flex flex-col items-center justify-center">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/50 backdrop-blur-sm z-10">
               <div className="w-12 h-12 border-4 border-accent/30 border-t-accent rounded-full animate-spin mb-4"></div>
-              <p className="text-secondary">Loading PDF...</p>
+              <p className="text-secondary font-medium">Loading Resume...</p>
+              <p className="text-muted text-sm mt-2">Please wait while we prepare your document</p>
             </div>
           )}
           
           {error && (
-            <div className="bg-card border border-custom rounded-lg p-8 max-w-md text-center">
-              <div className="text-red-400 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-                <h3 className="text-xl font-semibold text-primary mb-2">Error Loading PDF</h3>
-              </div>
-              <p className="text-secondary mb-6">
-                We couldn't load the resume PDF. This could be due to:
-              </p>
-              <ul className="text-left text-secondary mb-6 space-y-2">
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <span>The file may be missing or corrupted</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <span>Your browser might be blocking the PDF viewer</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <span>A temporary network issue</span>
-                </li>
-              </ul>
-              <div className="flex justify-center space-x-4">
-                <button 
-                  onClick={handleDownload}
-                  className="px-4 py-2 btn-primary rounded-lg font-medium flex items-center"
-                >
-                  <Download size={16} className="mr-2" />
-                  Download Instead
-                </button>
-                <button 
-                  onClick={() => window.location.reload()}
-                  className="px-4 py-2 btn-secondary rounded-lg font-medium"
-                >
-                  Try Again
-                </button>
+            <div className="absolute inset-0 flex items-center justify-center bg-card/50 backdrop-blur-sm z-10">
+              <div className="bg-card border border-custom rounded-xl p-8 max-w-md text-center shadow-2xl">
+                <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <X className="w-8 h-8 text-red-400" />
+                </div>
+                <h3 className="text-xl font-semibold text-primary mb-3">Unable to Load PDF</h3>
+                <p className="text-secondary mb-6 leading-relaxed">
+                  The resume couldn't be displayed. This might be due to browser restrictions or network issues.
+                </p>
+                
+                <div className="space-y-3">
+                  <button 
+                    onClick={retryLoad}
+                    className="w-full px-4 py-2 btn-primary rounded-lg font-medium"
+                  >
+                    Try Again
+                  </button>
+                  <button 
+                    onClick={handleDownload}
+                    className="w-full px-4 py-2 btn-secondary rounded-lg font-medium flex items-center justify-center"
+                  >
+                    <Download size={16} className="mr-2" />
+                    Download PDF Instead
+                  </button>
+                </div>
+                
+                <div className="mt-6 pt-4 border-t border-custom">
+                  <p className="text-xs text-muted">
+                    Troubleshooting: Try clearing your browser cache or using a different browser
+                  </p>
+                </div>
               </div>
             </div>
           )}
           
-          {!loading && !error && (
-            <div style={{ transform: `scale(${scale})`, transformOrigin: 'center', transition: 'transform 0.2s ease' }}>
+          {/* PDF Display */}
+          <div className="w-full h-full overflow-auto flex items-center justify-center p-4">
+            <div 
+              style={{ 
+                transform: `scale(${scale}) rotate(${rotation}deg)`,
+                transformOrigin: 'center',
+                transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                maxWidth: '100%',
+                maxHeight: '100%'
+              }}
+              className="shadow-2xl rounded-lg overflow-hidden"
+            >
               <iframe 
-                src="/my-cv.pdf" 
-                className="w-full h-[70vh] border border-custom rounded-lg bg-white"
+                ref={iframeRef}
+                src="/my-cv.pdf"
+                className="w-[210mm] h-[297mm] border-0 bg-white"
                 onLoad={handleIframeLoad}
                 onError={handleIframeError}
-                title="Resume PDF"
+                title="Suraj N Reddy Resume"
+                style={{
+                  minWidth: '595px',
+                  minHeight: '842px',
+                  maxWidth: '100%',
+                  maxHeight: '100%'
+                }}
               />
             </div>
-          )}
+          </div>
         </div>
         
-        {/* Footer with pagination */}
-        <div className="flex items-center justify-between p-4 border-t border-custom">
-          <div className="text-sm text-muted">
-            Page {currentPage} of {totalPages}
+        {/* Footer */}
+        <div className="flex items-center justify-between p-3 border-t border-custom bg-card/95 backdrop-blur-sm">
+          <div className="text-xs text-muted">
+            Resume • Last updated: {new Date().toLocaleDateString()}
           </div>
-          <div className="flex items-center space-x-2">
-            <button 
-              onClick={handlePrevPage}
-              disabled={currentPage <= 1 || loading || error}
-              className={`p-2 rounded-lg ${currentPage <= 1 || loading || error ? 'text-muted/50 cursor-not-allowed' : 'text-muted hover:text-primary hover:bg-secondary'}`}
-              aria-label="Previous page"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button 
-              onClick={handleNextPage}
-              disabled={currentPage >= totalPages || loading || error}
-              className={`p-2 rounded-lg ${currentPage >= totalPages || loading || error ? 'text-muted/50 cursor-not-allowed' : 'text-muted hover:text-primary hover:bg-secondary'}`}
-              aria-label="Next page"
-            >
-              <ChevronRight size={18} />
-            </button>
+          <div className="flex items-center space-x-4 text-xs text-muted">
+            <span>Use mouse wheel to zoom</span>
+            <span>•</span>
+            <span>ESC to close</span>
           </div>
         </div>
       </motion.div>
