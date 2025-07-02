@@ -20,8 +20,8 @@ const Projects = () => {
       description: 'A comprehensive hotel management system with booking, room management, and customer tracking features.',
       longDescription: 'A full-featured hotel management system built with modern web technologies. This application provides comprehensive booking management, room allocation, customer tracking, and administrative features for hotel operations.',
       technologies: ['Vite', 'Tailwind CSS', 'Node.js', 'Express.js', 'MongoDB'],
-      github: 'https://github.com/surajnreddy02',
-      live: 'https://example.com',
+      github: 'https://github.com/surajnreddy02/Hotel-Management-System',
+      live: null,
       image: 'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800',
       features: [
         'Real-time room availability tracking',
@@ -45,123 +45,131 @@ const Projects = () => {
     },
     {
       id: 2,
-      title: 'True Feedback',
-      description: 'Anonymous feedback application that allows users to provide honest feedback without revealing their identity.',
-      longDescription: 'An anonymous feedback platform designed to encourage honest communication in organizations and teams. Built with Next.js and featuring secure authentication and real-time feedback collection.',
-      technologies: ['Next.js', 'NextAuth.js', 'MongoDB', 'Tailwind CSS', 'TypeScript'],
-      github: 'https://github.com/surajnreddy02',
-      live: 'https://example.com',
-      image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800',
+      title: 'Nothing Weather',
+      description: 'A futuristic, minimalist weather application providing real-time data, AI-powered summaries, and conversational weather insights.',
+      longDescription: 'A futuristic, minimalist weather application providing real-time data, AI-powered summaries, and conversational weather insights. Inspired by the clean aesthetic of Nothing OS, this app focuses on a seamless user experience with a highly responsive and modern interface.',
+      technologies: ['Next.js', 'Tailwind CSS', 'Genkit AI', 'OpenWeatherMap API', 'MapTiler'],
+      github: 'https://github.com/surajnreddy02/NothingWeather',
+      live: 'https://nothingweather.netlify.app/',
+      image: 'https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=800',
       features: [
-        'Anonymous feedback submission',
-        'Real-time feedback dashboard',
-        'Category-based feedback organization',
-        'Admin moderation tools',
-        'Export feedback reports'
+        'Real-Time Weather Data',
+        'AI-Powered Summaries & Suggestions',
+        'Conversational AI Chat',
+        'Dynamic & Minimalist UI',
+        'User Personalization'
       ],
       highlights: [
-        'Implemented anonymous authentication system',
-        'Built real-time dashboard with live updates',
-        'Created comprehensive admin panel',
-        'Designed intuitive user experience'
+        'Utilized Google\'s Genkit for structured LLM interactions',
+        'Built with Next.js App Router and Server Components',
+        'Integrated dynamic map backgrounds with MapTiler',
+        'Created custom React hooks for state management',
+        'Designed with ShadCN UI and Tailwind CSS'
       ],
       challenges: [
-        'Ensuring true anonymity while preventing abuse',
-        'Building trust with users for honest feedback',
-        'Implementing effective moderation system',
-        'Balancing transparency with privacy'
+        'Engineered reactive state management for multiple components',
+        'Implemented comprehensive error handling for APIs and AI',
+        'Developed logic to process and aggregate forecast data',
+        'Created performant background rendering without impacting UI'
       ]
     },
     {
       id: 3,
-      title: 'Mind Dump',
-      description: 'A blogging platform with rich text editing, categories, and user authentication.',
-      longDescription: 'A modern blogging platform featuring rich text editing, multimedia support, and collaborative editing. Built with Next.js and Prisma for optimal performance and user experience.',
-      technologies: ['Next.js', 'Prisma', 'NeonDB', 'Tailwind CSS', 'TypeScript'],
-      github: 'https://github.com/surajnreddy02',
-      live: 'https://example.com',
-      image: 'https://images.pexels.com/photos/261662/pexels-photo-261662.jpeg?auto=compress&cs=tinysrgb&w=800',
+      title: 'SwasthyaAI',
+      description: 'AI-Powered Healthcare Platform for Rural Communities with intelligent diagnostic tools and patient management.',
+      longDescription: 'A comprehensive, AI-powered healthcare platform designed to empower healthcare workers in underserved rural communities. It provides intelligent diagnostic tools, streamlines patient management, and ensures secure record-keeping, all while prioritizing accessibility and multilingual support.',
+      technologies: ['React', 'Vite', 'Supabase', 'Google Gemini AI', 'Tailwind CSS'],
+      github: 'https://github.com/surajnreddy02/SwasthyaHealthAI',
+      live: 'https://swasthyahealthai.netlify.app/',
+      image: 'https://images.pexels.com/photos/7089401/pexels-photo-7089401.jpeg?auto=compress&cs=tinysrgb&w=800',
       features: [
-        'Rich text editor with code syntax highlighting',
-        'Advanced search with full-text indexing',
-        'Social features including comments and reactions',
-        'SEO optimization with RSS feed generation',
-        'Comprehensive analytics dashboard'
+        'AI-Powered Symptom Checker',
+        'Smart Triage Assistant',
+        'Medical Image Diagnosis',
+        'AI Chat Assistant',
+        'Patient Queue Management',
+        'Multilingual Support'
       ],
       highlights: [
-        'Built custom rich text editor with advanced features',
-        'Implemented full-text search with indexing',
-        'Created SEO-optimized blog structure',
-        'Designed responsive and accessible interface'
+        'Leveraged Google\'s Gemini AI for core functionalities',
+        'Built with React and Vite for optimized performance',
+        'Implemented Supabase for robust database management',
+        'Created responsive design for all devices',
+        'Integrated Web Speech API for voice input'
       ],
       challenges: [
-        'Building performant rich text editor',
-        'Implementing complex search functionality',
-        'Optimizing for SEO and performance',
-        'Managing large amounts of content efficiently'
+        'Bridging the healthcare gap in rural areas',
+        'Implementing robust security for patient data',
+        'Overcoming language barriers with multilingual support',
+        'Optimizing for low-bandwidth environments'
       ]
     },
     {
       id: 4,
-      title: 'EmotionVox',
-      description: 'Machine learning application that detects emotions from text and voice inputs.',
-      longDescription: 'An AI-powered application that analyzes emotions from both text and voice inputs using advanced machine learning models. Features real-time emotion detection and comprehensive analytics.',
-      technologies: ['Next.js', 'Flask', 'TensorFlow', 'Python', 'WebRTC'],
-      github: 'https://github.com/surajnreddy02',
-      live: 'https://example.com',
-      image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
+      title: 'PocketLaw AI',
+      description: 'Legal Assistant Platform with intelligent document generation, real-time chat support, and case management.',
+      longDescription: 'A comprehensive AI-powered legal assistance platform with intelligent document generation, real-time chat support, and case management. Features secure authentication, automated legal guidance, and responsive design for both legal professionals and individuals seeking legal help.',
+      technologies: ['Next.js', 'Google Gemini AI', 'Supabase', 'TypeScript', 'Tailwind CSS'],
+      github: 'https://github.com/surajnreddy02/pocketlaw-ai-compass',
+      live: 'https://pocketlawai.netlify.app/',
+      image: 'https://images.pexels.com/photos/5668859/pexels-photo-5668859.jpeg?auto=compress&cs=tinysrgb&w=800',
       features: [
-        'Real-time emotion detection from text',
-        'Voice emotion analysis using ML models',
-        'Emotion trend analytics and visualization',
-        'Multi-language support',
-        'API for third-party integrations'
+        'AI-powered legal consultation',
+        'Smart document generation with 150+ templates',
+        'Comprehensive case management system',
+        'Multi-persona AI assistant',
+        'Secure user authentication',
+        'Mobile-responsive design'
       ],
       highlights: [
-        'Trained custom emotion detection models',
-        'Implemented real-time voice processing',
-        'Built scalable ML pipeline',
-        'Created intuitive data visualization'
+        'Integrated Google Gemini AI for intelligent legal responses',
+        'Built with Supabase for real-time database synchronization',
+        'Implemented advanced document versioning',
+        'Added voice-to-text integration for accessibility',
+        'Used TypeScript for type safety'
       ],
       challenges: [
-        'Training accurate emotion detection models',
-        'Processing real-time audio streams',
-        'Handling multiple languages and accents',
-        'Optimizing model performance for web deployment'
+        'Implementing secure multi-tenant architecture',
+        'Creating complex persona-based AI responses',
+        'Building real-time document collaboration',
+        'Handling sensitive legal information securely'
       ]
     },
     {
       id: 5,
-      title: 'Fundify',
-      description: 'Decentralized crowdfunding platform built on blockchain technology.',
-      longDescription: 'A decentralized crowdfunding platform leveraging blockchain technology for transparent and secure fundraising. Built with Web3 technologies and smart contracts for trustless transactions.',
-      technologies: ['Next.js', 'Thirdweb', 'Solidity', 'Ethereum', 'IPFS'],
-      github: 'https://github.com/surajnreddy02',
-      live: 'https://example.com',
-      image: 'https://images.pexels.com/photos/8369648/pexels-photo-8369648.jpeg?auto=compress&cs=tinysrgb&w=800',
+      title: 'DripDrop',
+      description: 'Modern Android clothing store app with intuitive product catalog, secure checkout, and personalized user experience.',
+      longDescription: 'A modern Android application for seamless online clothing shopping, featuring a visually engaging UI, secure checkout, and personalized user experience. Designed for both customers and store admins, the app streamlines browsing, cart management, and order processing.',
+      technologies: ['Android', 'Java', 'Kotlin', 'SQLite', 'Retrofit'],
+      github: 'https://github.com/udayca12/Online-Clothing-Store-App-DripDrop',
+      live: null,
+      image: 'https://images.pexels.com/photos/5872361/pexels-photo-5872361.jpeg?auto=compress&cs=tinysrgb&w=800',
       features: [
-        'Smart contract-based crowdfunding',
-        'Transparent fund tracking',
-        'Decentralized file storage with IPFS',
-        'Multi-wallet support',
-        'Automated fund distribution'
+        'Intuitive product catalog with advanced search',
+        'Secure user authentication',
+        'Shopping cart with real-time updates',
+        'Integrated payment gateway',
+        'Order history and tracking',
+        'Admin panel for inventory management'
       ],
       highlights: [
-        'Developed secure smart contracts',
-        'Implemented Web3 wallet integration',
-        'Built decentralized storage solution',
-        'Created transparent funding mechanism'
+        'Built with Android (Java/Kotlin) and XML layouts',
+        'Implemented MVVM architecture for maintainable code',
+        'Used LiveData and ViewModel for reactive UI updates',
+        'Integrated Retrofit for RESTful API communication',
+        'Implemented Glide for efficient image loading'
       ],
       challenges: [
-        'Ensuring smart contract security',
-        'Managing gas fees and optimization',
-        'Building user-friendly Web3 interface',
-        'Implementing complex tokenomics'
+        'Ensuring secure authentication and data privacy',
+        'Optimizing image loading for low-latency browsing',
+        'Handling edge cases in cart and order management',
+        'Designing for scalability with large product catalogs',
+        'Creating responsive layouts for various device sizes'
       ]
     }
   ];
 
-  const openProjectModal = (project: any) => {
+  const openProjectModal = (project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
   };
@@ -237,16 +245,18 @@ const Projects = () => {
                       >
                         <Github size={16} />
                       </motion.a>
-                      <motion.a
-                        whileHover={{ scale: 1.1 }}
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="social-btn w-8 h-8"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <ExternalLink size={16} />
-                      </motion.a>
+                      {project.live && (
+                        <motion.a
+                          whileHover={{ scale: 1.1 }}
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="social-btn w-8 h-8"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink size={16} />
+                        </motion.a>
+                      )}
                     </div>
                     <span className="text-xs text-muted">Click to view details</span>
                   </div>
