@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { X, Download, ZoomIn, ZoomOut, RotateCw, Maximize2, Minimize2, RefreshCw } from 'lucide-react';
+import PdfViewer from './PdfViewer';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -56,23 +57,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
     };
   }, [isOpen, onClose]);
 
-  // Zoom controls
-  const handleZoomIn = () => {
-    setScale(prev => Math.min(prev + 0.2, 3.0));
-  };
-
-  const handleZoomOut = () => {
-    setScale(prev => Math.max(prev - 0.2, 0.5));
-  };
-
-  const handleZoomReset = () => {
-    setScale(1);
-  };
-
-  // Rotation control
-  const handleRotate = () => {
-    setRotation(prev => (prev + 90) % 360);
-  };
+  // ...removed zoom and rotation control functions...
 
   // Fullscreen toggle
   const toggleFullscreen = () => {
@@ -151,41 +136,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
           
           {/* Controls */}
           <div className="flex items-center space-x-2">
-            {/* Zoom Controls */}
-            <div className="flex items-center space-x-1 bg-secondary rounded-lg p-1">
-              <button 
-                onClick={handleZoomOut}
-                disabled={scale <= 0.5}
-                className="p-1.5 text-muted hover:text-primary transition-colors rounded disabled:opacity-50 disabled:cursor-not-allowed"
-                title="Zoom Out"
-              >
-                <ZoomOut size={16} />
-              </button>
-              <button 
-                onClick={handleZoomReset}
-                className="px-2 py-1.5 text-xs text-secondary hover:text-primary transition-colors"
-                title="Reset Zoom"
-              >
-                {Math.round(scale * 100)}%
-              </button>
-              <button 
-                onClick={handleZoomIn}
-                disabled={scale >= 3.0}
-                className="p-1.5 text-muted hover:text-primary transition-colors rounded disabled:opacity-50 disabled:cursor-not-allowed"
-                title="Zoom In"
-              >
-                <ZoomIn size={16} />
-              </button>
-            </div>
-
-            {/* Additional Controls */}
-            <button 
-              onClick={handleRotate}
-              className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-secondary"
-              title="Rotate"
-            >
-              <RotateCw size={16} />
-            </button>
+            {/* ...removed zoom and rotate controls... */}
             
             <button 
               onClick={toggleFullscreen}
@@ -222,7 +173,6 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
               <p className="text-muted text-sm mt-2">Please wait while we prepare your document</p>
             </div>
           )}
-          
           {error && (
             <div className="absolute inset-0 flex items-center justify-center bg-card/80 backdrop-blur-sm z-10">
               <div className="bg-card border border-custom rounded-xl p-8 max-w-md text-center shadow-2xl">
@@ -233,7 +183,6 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
                 <p className="text-secondary mb-6 leading-relaxed">
                   The resume couldn't be displayed in the browser. You can download it directly instead.
                 </p>
-                
                 <div className="space-y-3">
                   <button 
                     onClick={retryLoad}
@@ -253,29 +202,10 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
               </div>
             </div>
           )}
-          
-          {/* PDF Display */}
+          {/* PDF Display - use react-pdf */}
           <div className="w-full h-full overflow-auto flex items-center justify-center p-4">
-            <div 
-              style={{ 
-                transform: `scale(${scale}) rotate(${rotation}deg)`,
-                transformOrigin: 'center',
-                transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
-              className="shadow-2xl rounded-lg overflow-hidden bg-white max-w-full max-h-full"
-            >
-              <iframe 
-                id="pdf-iframe"
-                src="/my-cv.pdf"
-                className="w-[800px] h-[1000px] border-0 bg-white"
-                onLoad={handleIframeLoad}
-                onError={handleIframeError}
-                title="Suraj N Reddy Resume"
-                style={{
-                  minWidth: '600px',
-                  minHeight: '800px',
-                }}
-              />
+            <div className="shadow-2xl rounded-lg overflow-hidden bg-white max-w-full max-h-full">
+              <PdfViewer file="/my-cv.pdf" />
             </div>
           </div>
         </div>
