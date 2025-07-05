@@ -36,6 +36,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
         </div>
 
         {/* Project Image */}
+        {/* The image below uses w-full (100% width of container) and fixed height (h-48 for mobile, md:h-64 for desktop).
+            The aspect ratio is variable, determined by the container's width and fixed height, with object-cover cropping the image as needed. */}
         {project.image && (
           <div className="mb-6">
             <img

@@ -4,13 +4,28 @@ import { useInView } from 'react-intersection-observer';
 import { ExternalLink, Github } from 'lucide-react';
 import ProjectModal from './ProjectModal';
 
+// Define the Project type
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  longDescription: string;
+  technologies: string[];
+  github?: string;
+  live?: string;
+  image?: string;
+  features: string[];
+  highlights: string[];
+  challenges: string[];
+}
+
 const Projects = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1
   });
 
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const projects = [
@@ -21,7 +36,7 @@ const Projects = () => {
       longDescription: 'A full-featured hotel management system built with modern web technologies. This application provides comprehensive booking management, room allocation, customer tracking, and administrative features for hotel operations.',
       technologies: ['Vite', 'Tailwind CSS', 'Node.js', 'Express.js', 'MongoDB'],
       github: 'https://github.com/surajnreddy02/Hotel-Management-System',
-      live: null,
+      live: undefined,
       image: 'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800',
       features: [
         'Real-time room availability tracking',
@@ -136,13 +151,47 @@ const Projects = () => {
       ]
     },
     {
+      id: 6,
+      title: 'To-Do Pro+',
+      description: 'A modern web application for intelligent task management with AI-powered prioritization, focus sessions, and comprehensive analytics.',
+      longDescription: 'To-Do Pro+ is a modern web application for intelligent task management with AI-powered prioritization, focus sessions, and comprehensive analytics. Features gamification, calendar integration, and real-time productivity tracking for enhanced personal and professional organization.',
+      technologies: ['React', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Gemini AI'],
+      github: 'https://github.com/surajnreddy02/to-do-listpro',
+      live: 'https://todolistproplus.netlify.app/',
+      image: '/todolistpro.png',
+      features: [
+        'Smart task management with AI priority scoring',
+        'Pomodoro focus timer with session tracking',
+        'Analytics dashboard with productivity insights',
+        'Achievement system with gamification',
+        'Calendar view with due date management',
+        'Template system for recurring tasks',
+        'Voice input for hands-free task creation'
+      ],
+      highlights: [
+        'Built with React and TypeScript for type safety',
+        'Implemented Context API for state management',
+        'Integrated Supabase for authentication and database',
+        'Used Gemini AI for intelligent task prioritization',
+        'Responsive design with mobile-first approach',
+        'Real-time data synchronization across devices'
+      ],
+      challenges: [
+        'Implementing secure user authentication with email verification',
+        'Creating complex timer logic with session persistence',
+        'Optimizing database queries for analytics calculations',
+        'Designing intuitive UX for productivity workflows',
+        'Handling offline scenarios and data synchronization'
+      ]
+    },
+    {
       id: 5,
       title: 'DripDrop',
       description: 'Modern Android clothing store app with intuitive product catalog, secure checkout, and personalized user experience.',
       longDescription: 'A modern Android application for seamless online clothing shopping, featuring a visually engaging UI, secure checkout, and personalized user experience. Designed for both customers and store admins, the app streamlines browsing, cart management, and order processing.',
       technologies: ['Android', 'Java', 'Kotlin', 'SQLite', 'Retrofit'],
       github: 'https://github.com/udayca12/Online-Clothing-Store-App-DripDrop',
-      live: null,
+      live: undefined,
       image: 'https://images.pexels.com/photos/5872361/pexels-photo-5872361.jpeg?auto=compress&cs=tinysrgb&w=800',
       features: [
         'Intuitive product catalog with advanced search',
@@ -169,7 +218,7 @@ const Projects = () => {
     }
   ];
 
-  const openProjectModal = (project) => {
+  const openProjectModal = (project: Project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
   };
