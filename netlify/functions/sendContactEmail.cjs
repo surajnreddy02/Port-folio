@@ -25,7 +25,19 @@ exports.handler = async function(event, context) {
     from: `Portfolio Contact <${process.env.SMTP_USER}>`,
     to: process.env.CONTACT_RECEIVER_EMAIL, // Your email address
     subject: `New Contact Form Submission from ${name}`,
-    text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
+        <h2 style="color: #0056b3;">New Contact Form Submission</h2>
+        <p>You've received a new message from your portfolio website.</p>
+        <hr style="border: 0; border-top: 1px solid #eee;">
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+        <div>
+          <p><strong>Message:</strong></p>
+          <p style="padding: 10px; background-color: #f9f9f9; border-left: 4px solid #0056b3;">${message}</p>
+        </div>
+      </div>
+    `,
     replyTo: email,
   };
 
