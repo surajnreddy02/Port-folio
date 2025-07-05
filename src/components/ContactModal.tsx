@@ -24,19 +24,26 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
-
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      console.log('Form submitted:', data);
+      const response = await fetch('/.netlify/functions/sendContactEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.username,
+          email: data.email,
+          message: data.message,
+        }),
+      });
+      if (!response.ok) throw new Error('Failed to send');
       setSubmitStatus('success');
       reset();
       setTimeout(() => {
         onClose();
         setSubmitStatus('idle');
       }, 2000);
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
