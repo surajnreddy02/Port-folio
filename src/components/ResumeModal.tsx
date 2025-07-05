@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { X, Download, ZoomIn, ZoomOut, RotateCw, Maximize2, Minimize2, RefreshCw } from 'lucide-react';
+import { X, Maximize2, Minimize2, RefreshCw } from 'lucide-react';
 import PdfViewer from './PdfViewer';
 
 interface ResumeModalProps {
@@ -64,27 +64,12 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
     setIsFullscreen(prev => !prev);
   };
 
-  // Download functionality
-  const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/my-cv.pdf';
-    link.download = 'Suraj_N_Reddy_Resume.pdf';
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  // ...download functionality removed...
 
   // Handle iframe load
-  const handleIframeLoad = () => {
-    setLoading(false);
-    setError(false);
-  };
+  // ...handleIframeLoad removed (unused)...
 
-  const handleIframeError = () => {
-    setLoading(false);
-    setError(true);
-  };
+  // ...handleIframeError removed (unused)...
 
   // Retry loading
   const retryLoad = () => {
@@ -146,13 +131,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
               {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
             </button>
             
-            <button 
-              onClick={handleDownload}
-              className="p-2 text-accent hover:text-accent-hover transition-colors rounded-lg hover:bg-secondary"
-              title="Download Resume"
-            >
-              <Download size={16} />
-            </button>
+            {/* Download button removed */}
             
             <button 
               onClick={onClose}
@@ -191,13 +170,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
                     <RefreshCw size={16} className="mr-2" />
                     Try Again
                   </button>
-                  <button 
-                    onClick={handleDownload}
-                    className="w-full px-4 py-2 btn-primary rounded-lg font-medium flex items-center justify-center"
-                  >
-                    <Download size={16} className="mr-2" />
-                    Download PDF
-                  </button>
+                  {/* Download PDF button removed */}
                 </div>
               </div>
             </div>
