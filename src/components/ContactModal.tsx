@@ -15,35 +15,64 @@ interface ContactModalProps {
   onClose: () => void;
 }
 
+// Client-side input sanitization
+const sanitizeInput = (input: string): string => {
+  return input.replace(/[<>]/g, '').trim();
+};
+
 const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [lastSubmission, setLastSubmission] = useState<number>(0);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
+    // Rate limiting on client side (basic protection)
+    const now = Date.now();
+    if (now - lastSubmission < 2000) { // 2 seconds - reasonable for user experience
+      setSubmitStatus('error');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setLastSubmission(now);
+
     try {
+      // Sanitize inputs before sending
+      const sanitizedData = {
+        name: sanitizeInput(data.username),
+        email: sanitizeInput(data.email),
+        message: sanitizeInput(data.message),
+      };
+
+      // Basic validation
+      if (!sanitizedData.name || !sanitizedData.email || !sanitizedData.message) {
+        throw new Error('Invalid input data');
+      }
+
       const response = await fetch('/.netlify/functions/sendContactEmail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: data.username,
-          email: data.email,
-          message: data.message,
-        }),
+        body: JSON.stringify(sanitizedData),
       });
-      if (!response.ok) throw new Error('Failed to send');
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send message');
+      }
+      
       setSubmitStatus('success');
       reset();
       setTimeout(() => {
         onClose();
         setSubmitStatus('idle');
       }, 2000);
-    } catch {
+    } catch (error) {
+      console.error('Form submission error:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
