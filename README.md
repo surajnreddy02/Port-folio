@@ -6,7 +6,7 @@ A modern, responsive portfolio website showcasing my projects, skills, and exper
 
 - **Modern Design**: Clean, professional interface with smooth animations
 - **Responsive Layout**: Optimized for all devices and screen sizes
-- **Interactive Sections**: 
+- **Interactive Sections**:
   - Hero section with dynamic animations
   - About section with personal introduction
   - Skills showcase with technology icons
@@ -21,6 +21,7 @@ A modern, responsive portfolio website showcasing my projects, skills, and exper
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React 18** - Modern React with hooks
 - **TypeScript** - Type-safe JavaScript
 - **Tailwind CSS** - Utility-first CSS framework
@@ -29,12 +30,14 @@ A modern, responsive portfolio website showcasing my projects, skills, and exper
 - **Lucide React** - Beautiful, customizable icons
 
 ### Backend & Deployment
+
 - **Netlify Functions** - Serverless backend for contact form
 - **Nodemailer** - Email service for contact form
 - **Vite** - Fast build tool and development server
 - **Netlify** - Hosting and deployment platform
 
 ### Additional Libraries
+
 - **React Hook Form** - Form handling and validation
 - **React Intersection Observer** - Scroll-based animations
 - **React PDF** - PDF document rendering
@@ -42,7 +45,7 @@ A modern, responsive portfolio website showcasing my projects, skills, and exper
 
 ## 📁 Project Structure
 
-```
+```txt
 ├── public/
 │   ├── _headers              # Security headers
 │   ├── _redirects           # Netlify redirects
@@ -78,24 +81,28 @@ A modern, responsive portfolio website showcasing my projects, skills, and exper
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18 or higher
 - npm or yarn
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/portfolio.git
    cd portfolio
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
    Create a `.env` file in the root directory:
+
    ```env
    SMTP_HOST=your-smtp-host
    SMTP_PORT=587
@@ -106,6 +113,7 @@ A modern, responsive portfolio website showcasing my projects, skills, and exper
    ```
 
 4. **Start the development server**
+
    ```bash
    npm run dev
    ```
@@ -129,7 +137,9 @@ This project is configured for deployment on Netlify:
 3. **Functions Directory**: `netlify/functions`
 
 ### Environment Variables (Production)
+
 Set these in your Netlify dashboard:
+
 - `SMTP_HOST`
 - `SMTP_PORT`
 - `SMTP_SECURE`
@@ -140,22 +150,26 @@ Set these in your Netlify dashboard:
 ## ✨ Key Features Explained
 
 ### Contact Form
+
 - Serverless function handles form submissions
 - Email notifications via Nodemailer
 - Form validation with React Hook Form
 - Success/error feedback to users
 
 ### Smooth Scrolling & Animations
+
 - GSAP ScrollTrigger for scroll-based animations
 - Framer Motion for component transitions
 - Intersection Observer for performance optimization
 
 ### PDF Resume Viewer
+
 - Integrated PDF.js for resume viewing
 - Downloadable resume functionality
 - Responsive PDF display
 
 ### Project Showcase
+
 - Interactive project cards
 - Detailed project modals
 - Technology stack highlighting
@@ -164,7 +178,9 @@ Set these in your Netlify dashboard:
 ## 🎨 Customization
 
 ### Colors & Themes
+
 Customize the color scheme in `tailwind.config.js`:
+
 ```javascript
 theme: {
   extend: {
@@ -178,7 +194,9 @@ theme: {
 ```
 
 ### Adding Projects
+
 Edit the projects array in `src/components/Projects.tsx`:
+
 ```typescript
 const projects: Project[] = [
   {
@@ -217,10 +235,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👤 Author
 
-**Suraj N Reddy**
+Suraj N Reddy
+
 - GitHub: [@surajnreddy](https://github.com/surajnreddy)
 - LinkedIn: [Suraj N Reddy](https://linkedin.com/in/surajnreddy)
-- Email: surajnreddy@example.com
+- Email: <surajnreddy@example.com>
 
 ## 🙏 Acknowledgments
 
