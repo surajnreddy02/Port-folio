@@ -38,7 +38,7 @@ const Hero = () => {
   const socialLinks = [
     { icon: Github, href: 'https://github.com/surajnreddy02', label: 'GitHub' },
     { icon: Linkedin, href: 'https://www.linkedin.com/in/surajnreddy02/', label: 'LinkedIn' },
-    { icon: Instagram, href: 'https://www.instagram.com/surajnreddy020', label: 'Instagram' },
+    { icon: Instagram, href: 'https://www.instagram.com/surajnreddy02', label: 'Instagram' },
     { icon: Twitter, href: 'https://x.com/SurajNReddy02', label: 'Twitter' }
   ];
 

@@ -237,9 +237,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Suraj N Reddy
 
-- GitHub: [@surajnreddy](https://github.com/surajnreddy)
-- LinkedIn: [Suraj N Reddy](https://linkedin.com/in/surajnreddy)
-- Email: <surajnreddy@example.com>
+- GitHub: [@surajnreddy](https://github.com/surajnreddy02)
+- LinkedIn: [Suraj N Reddy](https://linkedin.com/in/surajnreddy02)
+- Email: <surajnreddy02pro@gamil.com>
 
 ## 🙏 Acknowledgments
 
