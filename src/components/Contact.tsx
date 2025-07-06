@@ -17,7 +17,7 @@ const Contact = () => {
       icon: Mail,
       label: 'Email',
       value: 'surajnreddy02pro@gmail.com',
-      href: 'mailto:surajnreddy02pro@gmail.com',
+      href: 'mailto:surajnreddy02pro@gmail.com?subject=Let\'s%20Connect%20-%20Portfolio%20Inquiry&body=Hi%20Suraj,%0D%0A%0D%0AI%20came%20across%20your%20portfolio%20and%20I\'m%20interested%20in%20discussing%20potential%20opportunities.%0D%0A%0D%0APlease%20let%20me%20know%20when%20you\'re%20available%20for%20a%20conversation.%0D%0A%0D%0ABest%20regards,',
       description: 'Send me an email'
     },
     {
