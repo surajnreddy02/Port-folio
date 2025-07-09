@@ -2,6 +2,9 @@
   "name": "modern-portfolio",
   "private": true,
   "version": "0.0.0",
+  "license": "MIT",
+  "author": "Suraj N Reddy",
+  "description": "A modern, responsive portfolio website showcasing projects, skills, and experience",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
