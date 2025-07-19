@@ -14,6 +14,10 @@ export default defineConfig({
     minify: 'terser',
     rollupOptions: {
       output: {
+        // Ensure proper cache busting with hash in filenames
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
         manualChunks: {
           vendor: ['react', 'react-dom'],
           animations: ['framer-motion', 'gsap'],

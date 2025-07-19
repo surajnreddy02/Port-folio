@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { X, Maximize2, Minimize2, RefreshCw } from 'lucide-react';
+import { X, Maximize2, Minimize2, RefreshCw, Download } from 'lucide-react';
 import PdfViewer from './PdfViewer';
+import { getCacheBustedUrl } from '../utils/version';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -15,6 +16,9 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [rotation, setRotation] = useState(0);
   const modalRef = useRef<HTMLDivElement>(null);
+
+  // Generate cache-busting version for PDF
+  const pdfUrl = getCacheBustedUrl('/my-cv.pdf', 'pdf');
 
   // Initialize modal state
   useEffect(() => {
@@ -64,7 +68,15 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
     setIsFullscreen(prev => !prev);
   };
 
-  // ...download functionality removed...
+  // Download functionality
+  const downloadPdf = () => {
+    const link = document.createElement('a');
+    link.href = '/my-cv.pdf'; // Use original URL for download
+    link.download = 'Suraj_N_Reddy_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Handle iframe load
   // ...handleIframeLoad removed (unused)...
@@ -131,7 +143,13 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
               {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
             </button>
             
-            {/* Download button removed */}
+            <button 
+              onClick={downloadPdf}
+              className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-secondary"
+              title="Download PDF"
+            >
+              <Download size={16} />
+            </button>
             
             <button 
               onClick={onClose}
@@ -170,7 +188,13 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
                     <RefreshCw size={16} className="mr-2" />
                     Try Again
                   </button>
-                  {/* Download PDF button removed */}
+                  <button 
+                    onClick={downloadPdf}
+                    className="w-full px-4 py-2 btn-primary rounded-lg font-medium flex items-center justify-center"
+                  >
+                    <Download size={16} className="mr-2" />
+                    Download PDF
+                  </button>
                 </div>
               </div>
             </div>
@@ -178,7 +202,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
           {/* PDF Display - use react-pdf */}
           <div className="w-full h-full overflow-auto flex items-center justify-center p-4">
             <div className="shadow-2xl rounded-lg overflow-hidden bg-white max-w-full max-h-full">
-              <PdfViewer file="/my-cv.pdf" />
+              <PdfViewer file={pdfUrl} />
             </div>
           </div>
         </div>
