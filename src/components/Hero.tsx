@@ -107,7 +107,7 @@ const Hero = () => {
                 transition={{ delay: 0.8 }}
                 className="text-lg text-muted max-w-2xl mx-auto leading-relaxed"
               >
-                3rd-year ISE student at BMS College of Engineering, passionate about software development, 
+                Final year ISE student at BMS College of Engineering, passionate about software development, 
                 data science, and contributing to open-source projects.
               </motion.p>
             </div>

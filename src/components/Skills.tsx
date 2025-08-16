@@ -80,15 +80,15 @@ const Skills = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative max-w-md mx-auto mb-10"
           >
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
-              <Search className="text-muted w-5 h-5" />
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <Search className="text-accent w-5 h-5" />
             </div>
             <input
               type="text"
               placeholder="Search skills..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="form-input w-full pl-12 py-3 rounded-lg"
+              className="form-input w-full pr-12 py-3 rounded-lg"
             />
           </motion.div>
 
