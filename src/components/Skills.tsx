@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Search, Code, Globe, Database, Wrench, Zap, Terminal, Layers } from 'lucide-react';
+import { Search, Code, Globe, Database, Wrench, Zap, Terminal } from 'lucide-react';
+import CertificationsModal from './CertificationsModal';
 
 const Skills = () => {
   const [ref, inView] = useInView({
@@ -10,6 +11,7 @@ const Skills = () => {
   });
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [isCertificationsModalOpen, setIsCertificationsModalOpen] = useState(false);
 
   const skillCategories = [
     {
@@ -101,7 +103,7 @@ const Skills = () => {
               className="bg-card border border-custom rounded-xl p-6 shadow-lg"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCategories.map((category, index) => {
+                {filteredCategories.map((category) => {
                   const Icon = category.icon;
                   return (
                     <div key={category.title} className="space-y-4">
@@ -175,8 +177,31 @@ const Skills = () => {
               </div>
             </div>
           </motion.div>
+
+          {/* Certifications Preview Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 1.0 }}
+            className="text-center mt-12"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-3 btn-secondary rounded-lg"
+              onClick={() => setIsCertificationsModalOpen(true)}
+            >
+              <span className="text-secondary">Preview Certifications</span>
+            </motion.button>
+          </motion.div>
         </div>
       </div>
+
+      {/* Certifications Modal */}
+      <CertificationsModal 
+        isOpen={isCertificationsModalOpen} 
+        onClose={() => setIsCertificationsModalOpen(false)} 
+      />
     </section>
   );
 };
