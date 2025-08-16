@@ -143,7 +143,7 @@ const CertificationsModal: React.FC<CertificationsModalProps> = ({ isOpen, onClo
         </div>
         
         {/* Web Page Viewer Container */}
-        <div className="flex-1 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 relative">
+        <div className="flex-1 overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 relative">
           {loading && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/80 backdrop-blur-sm z-10">
               <div className="w-12 h-12 border-4 border-accent/30 border-t-accent rounded-full animate-spin mb-4"></div>

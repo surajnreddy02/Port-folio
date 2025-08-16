@@ -10,11 +10,9 @@ interface ResumeModalProps {
 }
 
 const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
-  const [scale, setScale] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [rotation, setRotation] = useState(0);
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Generate cache-busting version for PDF
@@ -25,8 +23,6 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
     if (isOpen) {
       setLoading(true);
       setError(false);
-      setScale(1);
-      setRotation(0);
       setIsFullscreen(false);
       
       // Prevent body scrolling
@@ -162,7 +158,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
         </div>
         
         {/* PDF Viewer Container */}
-        <div className="flex-1 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 relative">
+        <div className="flex-1 overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 relative">
           {loading && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/80 backdrop-blur-sm z-10">
               <div className="w-12 h-12 border-4 border-accent/30 border-t-accent rounded-full animate-spin mb-4"></div>
@@ -173,8 +169,8 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
           {error && (
             <div className="absolute inset-0 flex items-center justify-center bg-card/80 backdrop-blur-sm z-10">
               <div className="bg-card border border-custom rounded-xl p-8 max-w-md text-center shadow-2xl">
-                <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <X className="w-8 h-8 text-red-400" />
+                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <X className="w-8 h-8 text-accent" />
                 </div>
                 <h3 className="text-xl font-semibold text-primary mb-3">Unable to Load PDF</h3>
                 <p className="text-secondary mb-6 leading-relaxed">
