@@ -22,7 +22,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
-  }, []);
+    }, [isLoading]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -118,9 +118,11 @@ function App() {
         });
 
         // ✅ Card animations
-        gsap.utils.toArray('.card-hover').forEach((card: any) => {
+        gsap.utils.toArray('.card-hover').forEach((card) => {
+          // Type assertion for GSAP animation
+          const cardElem = card as HTMLElement;
           gsap.fromTo(
-            card,
+            cardElem,
             { y: 20, opacity: 0 },
             {
               y: 0,
@@ -128,7 +130,7 @@ function App() {
               duration: 0.8,
               ease: 'power2.out',
               scrollTrigger: {
-                trigger: card,
+                trigger: cardElem,
                 start: 'top 85%',
                 toggleActions: 'play none none reverse',
                 once: false,
@@ -138,8 +140,11 @@ function App() {
         });
       });
 
-      // Expose navigate function globally
-      (window as any).navigateToSection = navigateToSection;
+  // Expose navigate function globally for external navigation (e.g., from console)
+  // This is not recommended for production apps unless necessary.
+  // This is not recommended for production apps unless necessary.
+  // TypeScript-safe way to extend window object
+  (window as unknown as { navigateToSection?: (sectionIndex: number) => void }).navigateToSection = navigateToSection;
 
       return () => {
         window.removeEventListener('scroll', handleScroll);

@@ -1,8 +1,16 @@
 const nodemailer = require('nodemailer');
 
 // Input validation and sanitization
-const sanitizeInput = (input) => {
+// Only allow safe characters for name/email, strip dangerous chars for message
+const sanitizeInput = (input, type = 'text') => {
   if (typeof input !== 'string') return '';
+  if (type === 'name') {
+    return input.replace(/[^a-zA-Z0-9 .'-]/g, '').trim().substring(0, 100);
+  }
+  if (type === 'email') {
+    return input.replace(/[^a-zA-Z0-9@._+-]/g, '').trim().substring(0, 100);
+  }
+  // Default: strip angle brackets, limit length
   return input.replace(/[<>]/g, '').trim().substring(0, 1000);
 };
 
@@ -12,6 +20,7 @@ const validateEmail = (email) => {
 };
 
 // Rate limiting store (in production, use Redis or similar)
+// NOTE: In-memory rate limiting is NOT suitable for serverless/production. Use Redis or similar in production.
 const rateLimitStore = new Map();
 
 const isRateLimited = (ip) => {
@@ -89,8 +98,8 @@ exports.handler = async function(event, context) {
   }
 
   // Sanitize inputs
-  const sanitizedName = sanitizeInput(name);
-  const sanitizedEmail = sanitizeInput(email);
+  const sanitizedName = sanitizeInput(name, 'name');
+  const sanitizedEmail = sanitizeInput(email, 'email');
   const sanitizedMessage = sanitizeInput(message);
 
   if (!sanitizedName || !sanitizedEmail || !sanitizedMessage) {
